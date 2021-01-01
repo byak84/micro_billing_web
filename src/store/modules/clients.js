@@ -17,7 +17,7 @@ export default {
             return new Promise((resolve, reject) => {
                 // axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-token')
                 axios
-                    .get('http://192.168.2.100:4000/clients')
+                    .get('http://127.0.0.1:4000/clients')
                     .then(response => {
                         commit('updateClients', response.data)
                         resolve();
@@ -31,7 +31,7 @@ export default {
         addClient({commit, getters, dispatch}, client) {
             return new Promise((resolve, reject) => {
                 axios
-                    .post('http://192.168.2.100:4000/clients/add', client)
+                    .post('http://127.0.0.1:4000/clients/add', client)
                     .then(() => {
                         dispatch('fetchClients')
                         reject()
