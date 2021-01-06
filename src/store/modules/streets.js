@@ -3,47 +3,49 @@ import axios from 'axios'
 export default {
     namespaced: true,
     state: {
-        clientList: [],
+        streetList: [],
     },
 
     mutations: {
-        updateClients(state, clientList) {
-            state.clientList = clientList;
+        updateStreets(state, streetList) {
+            state.streetList = streetList
         },
     },
 
     actions: {
-        fetchClients({commit}) {
+        fetchStreets({commit}) {
             return new Promise((resolve, reject) => {
                 // axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-token')
                 axios
-                    .get('http://127.0.0.1:4000/clients')
+                    .get('http://127.0.0.1:4000/streets')
                     .then(response => {
-                        commit('updateClients', response.data)
+                        commit('updateStreets', response.data)
                         resolve();
                     })
                     .catch(err => {
+
+                        commit('updateStreets', [{id: 0, name: 'Пусто'}])
                         reject(err);
                     })
             })
         },
 
-        addClient({commit, getters, dispatch}, client) {
+        addStreet({commit, getters, dispatch}, client) {
             return new Promise((resolve, reject) => {
                 axios
-                    .post('http://127.0.0.1:4000/clients/add', client)
+                    .post('http://127.0.0.1:4000/streets/add', client)
                     .then(() => {
-                        dispatch('fetchClients')
+                        dispatch('fetchStreets')
                         reject()
                     })
-                    .catch(err => reject("Can not add new client"))
+                    .catch(err => reject("Can not add new street"))
             })
         }
     },
 
     getters: {
-        CLIENTS(state) {
-            return state.clientList
+        STREETS(state) {
+            return state.streetList
         },
     },
 };

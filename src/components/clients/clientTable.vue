@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Таблица</p>
+<!--    <p>Таблица</p>-->
     <table>
       <tr class="head_row">
         <th width="200px">Имя</th>
@@ -64,6 +64,13 @@ export default {
 .body_row {
   background-color: beige;
   text-align: center;
+  cursor: pointer;
+}
+
+.body_row:hover {
+  background-color: burlywood;
+  /*text-align: center;*/
+  /*cursor: pointer;*/
 }
 
 </style>

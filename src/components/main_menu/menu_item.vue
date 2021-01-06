@@ -1,5 +1,5 @@
 <template>
-  <router-link v-bind:to="item.href" tag="p">{{ item.title }}</router-link>
+  <router-link v-bind:to="item.href" tag="p" exact active-class="active">{{ item.title }}</router-link>
 </template>
 
 <script>
@@ -19,6 +19,12 @@ p {
   cursor: pointer;
 }
 p:hover {
-  color: blue;
+  /*color: blue;*/
+  background-color: #4AAE9B;
 }
+
+.active {
+  color: rebeccapurple;
+}
+
 </style>
