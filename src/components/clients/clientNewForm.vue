@@ -4,7 +4,7 @@
       <table border="0" cellpadding="1" cellspacing="1">
         <tr>
           <td colspan="3" class="ctrl_td">
-            <input class="form_input" placeholder="Имя" type="text" name="clientName" v-model="clientName" autofocus>
+            <input class="form_input" placeholder="Имя" type="text" name="clientName" v-model="clientName" id="clientName" autofocus>
           </td>
         </tr>
         <tr>
@@ -17,9 +17,10 @@
         </tr>
         <tr>
           <td class="ctrl_td">
-            <select class="form_input">
-              <option>Базовый</option>
-            </select>
+            <tarif-pop-up class="form_input" @tarifChange="tarifChange" />
+<!--            <select class="form_input">-->
+<!--              <option>Базовый</option>-->
+<!--            </select>-->
           </td>
           <td class="ctrl_td">
             <input class="form_input" placeholder="IP адрес" type="text">
@@ -55,19 +56,25 @@
 
 <script>
 import streetsPopUp from "@/components/streets/streetsPopUp";
+import TarifPopUp from "@/components/tarifs/tarifPopUp";
 
 export default {
   name: "clientNewForm",
-  components: {streetsPopUp},
+  components: {TarifPopUp, streetsPopUp},
   data() {
     return {
       clientName: '',
       street_id: 0,
+      tarif_id: 0,
     }
   },
   methods: {
     streetChange(street_id) {
       this.street_id = street_id;
+    },
+
+    tarifChange(tarif_id) {
+      this.tarif_id = tarif_id;
     },
 
     submitHandler() {
@@ -77,6 +84,10 @@ export default {
     close() {
       this.$emit('close', null);
     }
+  },
+  mounted() {
+    let clientName = document.getElementById('clientName')
+    clientName.focus()
   }
 }
 </script>
