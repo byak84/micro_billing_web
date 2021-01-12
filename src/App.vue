@@ -113,9 +113,6 @@ select {
 .app {
   height: 100%;
   display: flex;
-  font-family: "Roboto Light",sans-serif;
-  /*max-width: 1000px;*/
-  /*margin: 0 auto;*/
 }
 
 .right_frame {

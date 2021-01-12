@@ -38,4 +38,8 @@ export default {
 </script>
 
 <style scoped>
+/*select {*/
+/*  width: 100%;*/
+/*  height: 30px;*/
+/*}*/
 </style>
