@@ -4,50 +4,53 @@
       <table border="0" cellpadding="1" cellspacing="1">
         <tr>
           <td colspan="3" class="ctrl_td">
-            <input class="form_input" placeholder="Имя" type="text" name="clientName" v-model="clientName" ref="clientName">
+            <input class="form_input" placeholder="Имя" type="text" name="clientName" v-model="formData.clientName"
+                   ref="clientName">
           </td>
         </tr>
         <tr>
           <td width="80%" colspan="2" class="ctrl_td">
-            <streets-pop-up class="form_input" @streetChange="streetChange"/>
+            <streets-pop-up class="form_input" @streetChange="streetChange" :street_id_prop="formData.street_id" />
           </td>
           <td class="ctrl_td">
-            <input class="form_input" placeholder="Номер" type="text">
+            <input class="form_input" placeholder="Номер" type="text" v-model="formData.number">
           </td>
         </tr>
         <tr>
           <td class="ctrl_td">
-            <tarif-pop-up class="form_input" @tarifChange="tarifChange"/>
+            <tarif-pop-up class="form_input" @tarifChange="tarifChange" :tarif_id_prop="formData.tarif_id" />
           </td>
           <td class="ctrl_td">
-            <input class="form_input" placeholder="IP адрес" type="text" v-model="IP">
+            <input class="form_input" placeholder="IP адрес" type="text" v-model="formData.IP">
           </td>
           <td colspan="1" class="ctrl_td">
-            <input type="checkbox" v-model="active" id="active"> <label for="active">Активен</label>
+            <input type="checkbox" v-model="formData.active" id="active"> <label for="active">Активен</label>
           </td>
         </tr>
         <tr>
-          <td width="33%" class="ctrl_td"><input class="form_input" type="date" v-model="reg_date"></td>
-          <td width="33%" class="ctrl_td"><input class="form_input" type="text" placeholder="Логин" v-model="login">
+          <td width="33%" class="ctrl_td"><input class="form_input" type="date" v-model="formData.reg_date"></td>
+          <td width="33%" class="ctrl_td"><input class="form_input" type="text" placeholder="Логин"
+                                                 v-model="formData.login">
           </td>
-          <td width="34%" class="ctrl_td"><input class="form_input" type="text" placeholder="Пароль" v-model="password">
-          </td>
-        </tr>
-        <tr>
-          <td colspan="3" align="center">
-            <input type="submit"
-                   class="btn-green"
-                   value="Создать"
-            />
-
-            <input type="button"
-                   class="btn-green ml10"
-                   @click="close"
-                   value="Закрыть"
-            />
-
+          <td width="34%" class="ctrl_td"><input class="form_input" type="text" placeholder="Пароль"
+                                                 v-model="formData.password">
           </td>
         </tr>
+        <!--        <tr>-->
+        <!--          <td colspan="3" align="center">-->
+        <!--            <input type="submit"-->
+        <!--                   class="btn-green"-->
+        <!--                   value="Создать"-->
+        <!--            />-->
+
+        <!--            <input type="button"-->
+        <!--                   class="btn-green ml10"-->
+        <!--                   @click="close"-->
+        <!--                   value="Закрыть"-->
+        <!--            />-->
+
+        <!--          </td>-->
+        <!--        </tr>-->
       </table>
     </form>
   </div>
@@ -59,41 +62,55 @@ import tarifPopUp from "@/components/tarifs/tarifPopUp";
 
 export default {
   name: "clientNewForm",
+  props: {
+    editFormData: Object
+  },
   components: {tarifPopUp, streetsPopUp},
   data() {
     return {
-      clientName: '',
-      street_id: 0,
-      number: '',
-      tarif_id: 0,
-      IP: '',
-      active: true,
-      reg_date: new Date().toLocaleString(),
-      login: '',
-      password: ''
+      formData: {
+        clientName: '',
+        street_id: 0,
+        number: '',
+        tarif_id: 0,
+        IP: '',
+        active: true,
+        reg_date: '',
+        login: '',
+        password: ''
+      }
     }
+  },
+  watch: {
+    formData: {
+      handler() {
+        this.$emit('dataChanged', this.formData)
+      },
+      deep: true
+    },
+
   },
   methods: {
     streetChange(street_id) {
-      this.street_id = street_id
+      this.formData.street_id = street_id
     },
     tarifChange(tarif_id) {
-      this.tarif_id = tarif_id
+      this.formData.tarif_id = tarif_id
     },
-    submitHandler() {
-      const formData = {
-        clientName: this.clientName,
-        street_id: this.street_id,
-        number: this.number,
-        tarif_id: this.tarif_id,
-        IP: this.IP,
-        active: this.active,
-        reg_date: this.reg_date,
-        login: this.login,
-        password: this.password
-      }
-      this.$emit('close', formData);
-    },
+    // submitHandler() {
+    //   const formData = {
+    //     clientName: this.clientName,
+    //     street_id: this.street_id,
+    //     number: this.number,
+    //     tarif_id: this.tarif_id,
+    //     IP: this.IP,
+    //     active: this.active,
+    //     reg_date: this.reg_date,
+    //     login: this.login,
+    //     password: this.password
+    //   }
+    //   this.$emit('close', formData);
+    // },
 
     close() {
       this.$emit('close', null);
@@ -101,6 +118,13 @@ export default {
   },
   mounted() {
     this.$refs.clientName.focus()
+    if (this.editFormData) {
+      this.formData = this.editFormData
+      // this.formData.clientName = this.editFormData.clientName
+      // this.formData.street_id = this.editFormData.street_id
+
+      console.log(this.editFormData)
+    }
   }
 }
 </script>

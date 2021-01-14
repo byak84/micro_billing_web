@@ -13,10 +13,15 @@
 <script>
 export default {
   name: "streetsPopUp",
+  props: {
+    street_id_prop: Number
+  },
   mounted() {
     this.$store.dispatch('streets/fetchStreets')
         .then(() => {
-          this.street_id = +this.streetList[0].id;
+          if (this.street_id_prop) {
+            this.street_id = this.street_id_prop
+          } else this.street_id = +this.streetList[0].id;
         })
   },
   watch: {

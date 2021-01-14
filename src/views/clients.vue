@@ -2,16 +2,28 @@
   <div>
     <h2>Управление клиентами</h2>
     <client-menu
-        v-on:add="showModal"
+        v-on:add="showModalNew"
     />
     <client-table/>
     <modal-view
-        v-if="isModalVisible"
-        v-on:close="closeModal"
+        v-if="isModalNewVisible"
+        v-on:close="closeModalNew"
         title="Новый пользователь"
     >
 
-        <client-new-form slot="body" @close="closeModal" />
+      <client-new-form slot="body" @close="closeModalNew" @dataChanged="dataChanged" :edit-form-data="formData" />
+      <div slot="footer">
+        <input type="button"
+        class="btn btn-green"
+        value="Создать"
+        />
+
+        <input type="button"
+               class="btn-green ml10"
+               @click="closeModalNew"
+               value="Закрыть"
+        />
+      </div>
 
     </modal-view>
 
@@ -29,17 +41,22 @@ export default {
   components: {clientTable, clientMenu, modalView, clientNewForm},
   data() {
     return {
-      isModalVisible: false,
+      isModalNewVisible: false,
+      formData: {
+        clientName: 'Ivan',
+        street_id: 1
+      },
     }
   },
   methods: {
-
-    showModal() {
-      this.isModalVisible = true;
+    dataChanged(formData) {
+      this.formData = formData
     },
-
-    closeModal(result) {
-      this.isModalVisible = false;
+    showModalNew() {
+      this.isModalNewVisible = true
+    },
+    closeModalNew(result) {
+      this.isModalNewVisible = false
       console.log(result)
     }
   }
