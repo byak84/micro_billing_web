@@ -13,10 +13,14 @@
 <script>
 export default {
   name: "tarifPopUp",
+  props: {
+    tarif_id_prop: Number
+  },
   mounted() {
     this.$store.dispatch('tarifs/fetchTarifs')
         .then(() => {
-          this.tarif_id = +this.tarifList[0].id;
+          if (this.tarif_id_prop) this.tarif_id = this.tarif_id_prop
+          else this.tarif_id = +this.tarifList[0].id;
         })
   },
   watch: {

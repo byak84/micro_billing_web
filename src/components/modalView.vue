@@ -5,7 +5,7 @@
       <header class="modal-header">
         <slot name="header">
           <h3>{{ title }}</h3>
-          <span class="btn-close" @click="$emit('close', null)">x</span>
+          <span class="btn-close" @click="$emit('close')">x</span>
         </slot>
       </header>
 
@@ -52,8 +52,6 @@ h3 {
   overflow-x: auto;
   display: flex;
   flex-direction: column;
-  /*width: 500px;*/
-  /*height: 500px;*/
 }
 
 .modal-footer {

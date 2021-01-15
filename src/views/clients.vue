@@ -4,25 +4,30 @@
     <client-menu
         v-on:add="showModalNew"
     />
-    <client-table/>
+    <client-table @editClick="editClick" />
+
     <modal-view
         v-if="isModalNewVisible"
         v-on:close="closeModalNew"
         title="Новый пользователь"
     >
 
-      <client-new-form slot="body" @close="closeModalNew" @dataChanged="dataChanged" :edit-form-data="formData" />
-      <div slot="footer">
+      <client-new-form slot="body" @close="closeModalNew" @dataChanged="dataChanged" :edit-form-data="formData"/>
+
+      <div slot="footer" class="footer">
+
         <input type="button"
-        class="btn btn-green"
-        value="Создать"
+               class="btn btn-green"
+               value="Создать"
+               @click="addNewClient"
         />
 
         <input type="button"
                class="btn-green ml10"
-               @click="closeModalNew"
                value="Закрыть"
+               @click="closeModalNew"
         />
+
       </div>
 
     </modal-view>
@@ -42,27 +47,49 @@ export default {
   data() {
     return {
       isModalNewVisible: false,
-      formData: {
-        clientName: 'Ivan',
-        street_id: 1
-      },
+      formData: {},
     }
   },
   methods: {
+    editClick(rowData) {
+      this.formData = rowData
+      this.showModalNew()
+    },
     dataChanged(formData) {
       this.formData = formData
     },
     showModalNew() {
       this.isModalNewVisible = true
     },
-    closeModalNew(result) {
+    addNewClient() {
       this.isModalNewVisible = false
-      console.log(result)
-    }
+      console.log(this.formData)
+      this.formData = {}
+    },
+    closeModalNew() {
+      this.isModalNewVisible = false
+      this.formData = {}
+    },
   }
 }
 </script>
 
 <style scoped>
+.footer {
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
 
+.btn-green {
+  color: white;
+  background: #4AAE9B;
+  border: 1px solid #4AAE9B;
+  border-radius: 2px;
+  margin-top: 20px;
+  width: 150px;
+}
+
+.ml10 {
+  margin-left: 10px;
+}
 </style>

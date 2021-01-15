@@ -1,34 +1,35 @@
 <template>
   <div class="container">
-    <form @submit.prevent="submitHandler">
+    <form>
       <table border="0" cellpadding="1" cellspacing="1">
         <tr>
           <td colspan="3" class="ctrl_td">
-            <input class="form_input" placeholder="Имя" type="text" name="clientName" v-model="formData.clientName"
+            <input class="form_input" placeholder="Имя" type="text" name="clientName" v-model="formData.name"
                    ref="clientName">
           </td>
         </tr>
         <tr>
           <td width="80%" colspan="2" class="ctrl_td">
-            <streets-pop-up class="form_input" @streetChange="streetChange" :street_id_prop="formData.street_id" />
+            <streets-pop-up class="form_input" @streetChange="streetChange" :street_id_prop="formData.street.id"/>
+            <!--            <streets-pop-up class="form_input" @streetChange="streetChange" />-->
           </td>
           <td class="ctrl_td">
-            <input class="form_input" placeholder="Номер" type="text" v-model="formData.number">
+            <input class="form_input" placeholder="Номер" type="text" v-model="formData.house_number">
           </td>
         </tr>
         <tr>
           <td class="ctrl_td">
-            <tarif-pop-up class="form_input" @tarifChange="tarifChange" :tarif_id_prop="formData.tarif_id" />
+            <tarif-pop-up class="form_input" @tarifChange="tarifChange" :tarif_id_prop="formData.tarif.id"/>
           </td>
           <td class="ctrl_td">
-            <input class="form_input" placeholder="IP адрес" type="text" v-model="formData.IP">
+            <input class="form_input" placeholder="IP адрес" type="text" v-model="formData.ip">
           </td>
           <td colspan="1" class="ctrl_td">
             <input type="checkbox" v-model="formData.active" id="active"> <label for="active">Активен</label>
           </td>
         </tr>
         <tr>
-          <td width="33%" class="ctrl_td"><input class="form_input" type="date" v-model="formData.reg_date"></td>
+          <td width="33%" class="ctrl_td"><input class="form_input" type="date" v-model="formData.connection_date"></td>
           <td width="33%" class="ctrl_td"><input class="form_input" type="text" placeholder="Логин"
                                                  v-model="formData.login">
           </td>
@@ -36,21 +37,6 @@
                                                  v-model="formData.password">
           </td>
         </tr>
-        <!--        <tr>-->
-        <!--          <td colspan="3" align="center">-->
-        <!--            <input type="submit"-->
-        <!--                   class="btn-green"-->
-        <!--                   value="Создать"-->
-        <!--            />-->
-
-        <!--            <input type="button"-->
-        <!--                   class="btn-green ml10"-->
-        <!--                   @click="close"-->
-        <!--                   value="Закрыть"-->
-        <!--            />-->
-
-        <!--          </td>-->
-        <!--        </tr>-->
       </table>
     </form>
   </div>
@@ -69,13 +55,17 @@ export default {
   data() {
     return {
       formData: {
-        clientName: '',
-        street_id: 0,
-        number: '',
-        tarif_id: 0,
-        IP: '',
+        name: '',
+        street: {
+          id: 0,
+        },
+        house_number: '',
+        tarif: {
+          id: 0,
+        },
+        ip: '',
         active: true,
-        reg_date: '',
+        connection_date: '',
         login: '',
         password: ''
       }
@@ -92,38 +82,16 @@ export default {
   },
   methods: {
     streetChange(street_id) {
-      this.formData.street_id = street_id
+      this.formData.street.id = street_id
     },
     tarifChange(tarif_id) {
-      this.formData.tarif_id = tarif_id
-    },
-    // submitHandler() {
-    //   const formData = {
-    //     clientName: this.clientName,
-    //     street_id: this.street_id,
-    //     number: this.number,
-    //     tarif_id: this.tarif_id,
-    //     IP: this.IP,
-    //     active: this.active,
-    //     reg_date: this.reg_date,
-    //     login: this.login,
-    //     password: this.password
-    //   }
-    //   this.$emit('close', formData);
-    // },
-
-    close() {
-      this.$emit('close', null);
+      this.formData.tarif.id = tarif_id
     },
   },
   mounted() {
     this.$refs.clientName.focus()
-    if (this.editFormData) {
-      this.formData = this.editFormData
-      // this.formData.clientName = this.editFormData.clientName
-      // this.formData.street_id = this.editFormData.street_id
-
-      console.log(this.editFormData)
+    if (this.editFormData.id) {
+      this.formData = {...this.editFormData}
     }
   }
 }
@@ -133,21 +101,12 @@ export default {
 
 .container {
   display: block;
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
 }
 
 table {
   width: 100%;
-}
-
-.btn-green {
-  color: white;
-  background: #4AAE9B;
-  border: 1px solid #4AAE9B;
-  border-radius: 2px;
-  margin-top: 20px;
-  width: 150px;
 }
 
 .form_label {
@@ -161,10 +120,8 @@ table {
 .form_input {
   width: 100%;
   height: 30px;
-  /*border: 1px solid gainsboro;*/
   border: 1px solid white;
   background: transparent;
-  /*background: #eeeeee;*/
 }
 
 .ctrl_td {
@@ -182,8 +139,5 @@ table {
   color: #e0e0e0;
 }
 
-.ml10 {
-  margin-left: 10px;
-}
 
 </style>

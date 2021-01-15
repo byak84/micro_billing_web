@@ -23,7 +23,6 @@ export default {
                         resolve();
                     })
                     .catch(err => {
-
                         commit('updateStreets', [{id: 0, name: 'Пусто'}])
                         reject(err);
                     })

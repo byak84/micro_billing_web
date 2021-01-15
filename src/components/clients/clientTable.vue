@@ -12,36 +12,26 @@
         <th width="80px">Логин</th>
         <th width="150px">Пароль</th>
       </tr>
-      <tr class="body_row" v-for="client in clientList">
-        <td>{{ client.name }}</td>
-        <td>{{ client.street.name + ': ' + client.house_number }}</td>
-        <td>{{ client.tarif.naming + ': ' + client.tarif.price }}</td>
-        <td>{{ client.ip }}</td>
-        <td>{{ client.active ? 'да' : 'нет' }}</td>
-        <td>{{ client.connection_date }}</td>
-        <td>{{ client.login }}</td>
-        <td>{{ client.password }}</td>
-      </tr>
+
+      <client-table-row v-for="client in clientList" :row-data="client" @clickOnRow="editClient" />
+
     </table>
   </div>
 </template>
 
 <script>
+import clientTableRow from "@/components/clients/clientTableRow";
 export default {
   name: "clientTable",
+  components: {clientTableRow},
   date() {
     return {
-      clientInfo: {
-        name: '',
-        street: { name: '' },
-        house_number: '',
-        tarif: { naming: '', price: 0 },
-        ip: '',
-        active: false,
-        connection_date: '',
-        login: '',
-        password: ''
-      }
+    }
+  },
+  methods: {
+    editClient(rowData) {
+      // console.log(event)
+      this.$emit('editClick', rowData)
     }
   },
   computed: {
@@ -61,16 +51,16 @@ export default {
   background-color: darkgrey;
 }
 
-.body_row {
-  background-color: beige;
-  text-align: center;
-  cursor: pointer;
-}
+/*.body_row {*/
+/*  background-color: beige;*/
+/*  text-align: center;*/
+/*  cursor: pointer;*/
+/*}*/
 
-.body_row:hover {
-  background-color: burlywood;
-  /*text-align: center;*/
-  /*cursor: pointer;*/
-}
+/*.body_row:hover {*/
+/*  background-color: burlywood;*/
+/*  text-align: center;*/
+/*  cursor: pointer;*/
+/*}*/
 
 </style>
